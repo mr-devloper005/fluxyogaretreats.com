@@ -27,8 +27,10 @@ const taskIcons: Record<TaskKey, any> = {
 const variantShells = {
   'listing-directory': 'bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.08),transparent_24%),linear-gradient(180deg,#f8fbff_0%,#ffffff_100%)]',
   'listing-showcase': 'bg-[linear-gradient(180deg,#ffffff_0%,#f4f9ff_100%)]',
-  'article-editorial': 'bg-[radial-gradient(circle_at_top_left,rgba(251,191,36,0.08),transparent_20%),linear-gradient(180deg,#fff8ef_0%,#ffffff_100%)]',
-  'article-journal': 'bg-[linear-gradient(180deg,#fffdf9_0%,#f7f1ea_100%)]',
+  'article-editorial':
+    'relative text-slate-900 bg-[linear-gradient(180deg,#faf5ff_0%,#ffffff_38%,#fdf2f8_100%)] before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:bg-[radial-gradient(520px_320px_at_12%_-8%,rgba(168,85,247,0.18),transparent_58%),radial-gradient(480px_280px_at_92%_8%,rgba(236,72,153,0.12),transparent_55%)]',
+  'article-journal':
+    'relative text-slate-900 bg-[linear-gradient(180deg,#faf5ff_0%,#ffffff_42%,#fdf2f8_100%)] before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:bg-[radial-gradient(480px_280px_at_8%_0%,rgba(168,85,247,0.14),transparent_55%)]',
   'image-masonry': 'bg-[linear-gradient(180deg,#09101d_0%,#111c2f_100%)] text-white',
   'image-portfolio': 'bg-[linear-gradient(180deg,#07111f_0%,#13203a_100%)] text-white',
   'profile-creator': 'bg-[linear-gradient(180deg,#0a1120_0%,#101c34_100%)] text-white',
@@ -69,14 +71,24 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
         input: 'border-white/10 bg-white/6 text-white',
         button: 'bg-white text-slate-950 hover:bg-slate-200',
       }
-    : layoutKey.startsWith('article') || layoutKey.startsWith('sbm')
+    : layoutKey.startsWith('article')
       ? {
-          muted: 'text-[#72594a]',
-          panel: 'border border-[#dbc6b6] bg-white/90',
-          soft: 'border border-[#dbc6b6] bg-[#fff8ef]',
-          input: 'border border-[#dbc6b6] bg-white text-[#2f1d16]',
-          button: 'bg-[#2f1d16] text-[#fff4e4] hover:bg-[#452920]',
+          muted: 'text-slate-600',
+          panel:
+            'rounded-[1.75rem] border border-white/70 bg-white/70 shadow-[0_24px_80px_rgba(168,85,247,0.12)] backdrop-blur-xl supports-[backdrop-filter]:bg-white/60',
+          soft: 'rounded-[1.5rem] border border-white/60 bg-white/50 shadow-[0_12px_40px_rgba(236,72,153,0.08)] backdrop-blur-md',
+          input: 'border border-slate-200/80 bg-white/85 text-slate-900 shadow-sm',
+          button:
+            'bg-[linear-gradient(90deg,#a855f7,#ec4899)] text-white shadow-[0_14px_40px_rgba(168,85,247,0.35)] hover:brightness-105',
         }
+      : layoutKey.startsWith('sbm')
+        ? {
+            muted: 'text-[#72594a]',
+            panel: 'border border-[#dbc6b6] bg-white/90',
+            soft: 'border border-[#dbc6b6] bg-[#fff8ef]',
+            input: 'border border-[#dbc6b6] bg-white text-[#2f1d16]',
+            button: 'bg-[#2f1d16] text-[#fff4e4] hover:bg-[#452920]',
+          }
       : {
           muted: 'text-slate-600',
           panel: 'border border-slate-200 bg-white',
@@ -149,13 +161,17 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
         {layoutKey === 'article-editorial' || layoutKey === 'article-journal' ? (
           <section className="mb-12 grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
             <div>
-              <p className={`text-xs uppercase tracking-[0.3em] ${ui.muted}`}>{taskConfig?.label || task}</p>
-              <h1 className="mt-3 max-w-4xl text-5xl font-semibold tracking-[-0.05em] text-foreground">{taskConfig?.description || 'Latest posts'}</h1>
-              <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>This reading surface uses slower pacing, stronger typographic hierarchy, and more breathing room so long-form content feels intentional rather than squeezed into a generic feed.</p>
+              <p className={`inline-flex items-center gap-2 rounded-full border border-violet-200/80 bg-gradient-to-r from-violet-500/10 to-fuchsia-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-violet-800`}>
+                {taskConfig?.label || task}
+              </p>
+              <h1 className="mt-5 max-w-4xl text-5xl font-semibold tracking-[-0.05em] text-slate-900">{taskConfig?.description || 'Latest posts'}</h1>
+              <p className={`mt-5 max-w-2xl text-sm leading-8 sm:text-base ${ui.muted}`}>
+                Essays, itineraries, and field notes from the Flux desk—set on glass-quiet panels with room to read before you scroll.
+              </p>
             </div>
-            <div className={`rounded-[2rem] p-6 ${ui.panel}`}>
-              <p className={`text-xs font-semibold uppercase tracking-[0.24em] ${ui.muted}`}>Reading note</p>
-              <p className={`mt-4 text-sm leading-7 ${ui.muted}`}>Use category filters to jump between topics without collapsing the page into the same repeated card rhythm used by other task types.</p>
+            <div className={`p-6 sm:p-7 ${ui.panel}`}>
+              <p className={`text-xs font-semibold uppercase tracking-[0.24em] text-violet-700/90`}>Browse & filter</p>
+              <p className={`mt-4 text-sm leading-7 ${ui.muted}`}>Pick a category to narrow the shelf. Cards keep a fixed image ratio so the grid stays calm on every breakpoint.</p>
               <form className="mt-5 flex items-center gap-3" action={taskConfig?.route || '#'}>
                 <select name="category" defaultValue={normalizedCategory} className={`h-11 flex-1 rounded-xl px-3 text-sm ${ui.input}`}>
                   <option value="all">All categories</option>
@@ -238,17 +254,45 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
         ) : null}
 
         {intro ? (
-          <section className={`mb-12 rounded-[2rem] p-6 shadow-[0_18px_50px_rgba(15,23,42,0.06)] sm:p-8 ${ui.panel}`}>
-            <h2 className="text-2xl font-semibold text-foreground">{intro.title}</h2>
+          <section
+            className={`mb-12 rounded-[2rem] p-6 sm:p-8 ${
+              layoutKey.startsWith('article')
+                ? 'border border-white/70 bg-white/65 shadow-[0_24px_80px_rgba(168,85,247,0.1)] backdrop-blur-xl'
+                : `shadow-[0_18px_50px_rgba(15,23,42,0.06)] ${ui.panel}`
+            }`}
+          >
+            <h2 className="text-2xl font-semibold text-slate-900">{intro.title}</h2>
             {intro.paragraphs.map((paragraph) => (
-              <p key={paragraph.slice(0, 40)} className={`mt-4 text-sm leading-7 ${ui.muted}`}>{paragraph}</p>
+              <p key={paragraph.slice(0, 40)} className={`mt-4 text-sm leading-7 ${ui.muted}`}>
+                {paragraph}
+              </p>
             ))}
             <div className="mt-4 flex flex-wrap gap-4 text-sm">
               {intro.links.map((link) => (
-                <a key={link.href} href={link.href} className="font-semibold text-foreground hover:underline">{link.label}</a>
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className={`font-semibold ${layoutKey.startsWith('article') ? 'text-violet-700 hover:text-violet-900 hover:underline' : 'text-foreground hover:underline'}`}
+                >
+                  {link.label}
+                </a>
               ))}
             </div>
           </section>
+        ) : null}
+
+        {task === 'article' ? (
+          <div className="mb-10 flex flex-col justify-between gap-4 border-b border-violet-200/40 pb-8 sm:flex-row sm:items-end">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-violet-700/90">The shelf</p>
+              <h2 className="mt-1 text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">Latest articles</h2>
+              <p className="mt-2 max-w-xl text-sm text-slate-600">Tap a card to open the full story—each cover keeps a steady 16:9 frame for calmer scanning.</p>
+            </div>
+            <Link href="/search" className="inline-flex w-fit items-center gap-2 rounded-full border border-violet-200/80 bg-white/80 px-4 py-2 text-sm font-semibold text-violet-800 shadow-sm transition hover:border-violet-300 hover:bg-white">
+              Search archive
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
         ) : null}
 
         <TaskListClient task={task} initialPosts={posts} category={normalizedCategory} />
