@@ -5,61 +5,8 @@ export const mockUsers: User[] = []
 
 export const currentUser: User = mockUsers[0]
 
-// Mock Articles
-export const mockArticles: Article[] = [
- 
-  {
-    id: '4',
-    title: 'Remote Work Culture: Lessons from Leading Teams',
-    slug: 'remote-work-culture-lessons',
-    excerpt: 'How top companies are building thriving remote cultures and what you can learn from them.',
-    content: '<p>The shift to remote work has fundamentally changed how teams collaborate...</p>',
-    coverImage: 'https://images.unsplash.com/photo-1552581234-26160f608093?w=1200&h=600&fit=crop',
-    author: mockUsers[3],
-    category: 'Business',
-    tags: ['Remote Work', 'Culture', 'Leadership'],
-    publishedAt: '2026-03-01',
-    readTime: 10,
-    views: 15200,
-    likes: 1120,
-    commentsCount: 67,
-    isFeatured: true
-  },
-  {
-    id: '5',
-    title: 'Accessibility First: Designing for Everyone',
-    slug: 'accessibility-first-design',
-    excerpt: 'Why accessibility should be at the foundation of every design decision, not an afterthought.',
-    content: '<p>Accessibility is not just about compliance—it is about creating experiences that work for everyone...</p>',
-    coverImage: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?w=1200&h=600&fit=crop',
-    author: mockUsers[4],
-    category: 'Accessibility',
-    tags: ['Accessibility', 'Inclusive Design', 'WCAG'],
-    publishedAt: '2026-02-28',
-    readTime: 7,
-    views: 5400,
-    likes: 389,
-    commentsCount: 19,
-    isFeatured: false
-  },
-  {
-    id: '6',
-    title: 'The Complete Guide to TypeScript 6.0',
-    slug: 'complete-guide-typescript-6',
-    excerpt: 'Everything you need to know about the latest TypeScript release and its game-changing features.',
-    content: '<p>TypeScript continues to evolve, bringing more powerful type-safety features...</p>',
-    coverImage: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=600&fit=crop',
-    author: mockUsers[1],
-    category: 'Technology',
-    tags: ['TypeScript', 'JavaScript', 'Development'],
-    publishedAt: '2026-02-25',
-    readTime: 15,
-    views: 21000,
-    likes: 1560,
-    commentsCount: 89,
-    isFeatured: true
-  }
-]
+// Articles: no bundled mock entries — use CMS feed and locally saved drafts (`storageKeys.articles`).
+export const mockArticles: Article[] = []
 
 // Mock Listings
 export const mockListings: Listing[] = [

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Bookmark, Building2, FileText, Image as ImageIcon, Sparkles } from 'lucide-react'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
+import { LoginForm } from '@/components/auth/login-form'
 import { getFactoryState } from '@/design/factory/get-factory-state'
 import { getProductKind } from '@/design/factory/get-product-kind'
 import { LOGIN_PAGE_OVERRIDE_ENABLED, LoginPageOverride } from '@/overrides/login-page'
@@ -14,6 +15,7 @@ function getLoginConfig(kind: ReturnType<typeof getProductKind>) {
       side: 'border border-slate-200 bg-slate-50',
       muted: 'text-slate-600',
       action: 'bg-slate-950 text-white hover:bg-slate-800',
+      input: 'border-slate-200 bg-white text-slate-900 placeholder:text-slate-400',
       icon: Building2,
       title: 'Access your business dashboard',
       body: 'Manage listings, verification details, contact info, and local discovery surfaces from one place.',
@@ -21,14 +23,16 @@ function getLoginConfig(kind: ReturnType<typeof getProductKind>) {
   }
   if (kind === 'editorial') {
     return {
-      shell: 'bg-[#fbf6ee] text-[#241711]',
-      panel: 'border border-[#dcc8b7] bg-[#fffdfa]',
-      side: 'border border-[#e6d6c8] bg-[#fff4e8]',
-      muted: 'text-[#6e5547]',
-      action: 'bg-[#241711] text-[#fff1e2] hover:bg-[#3a241b]',
+      shell: 'bg-[linear-gradient(165deg,#faf5ff_0%,#ffffff_42%,#fdf2f8_100%)] text-slate-900',
+      panel: 'border border-white/70 bg-white/75 shadow-[0_24px_80px_rgba(168,85,247,0.12)] backdrop-blur-xl',
+      side: 'border border-white/60 bg-white/55 shadow-[0_18px_60px_rgba(236,72,153,0.08)] backdrop-blur-xl',
+      muted: 'text-slate-600',
+      action:
+        'bg-[linear-gradient(90deg,#a855f7,#ec4899)] text-white shadow-[0_14px_40px_rgba(168,85,247,0.35)] hover:brightness-105',
+      input: 'border-slate-200/80 bg-white/80 text-slate-900 placeholder:text-slate-400',
       icon: FileText,
-      title: 'Sign in to your publication workspace',
-      body: 'Draft, review, and publish long-form work with the calmer reading system intact.',
+      title: 'Welcome back to the reading room',
+      body: 'Sign in to save reading lists, follow new issues, and keep your contributor tools in sync across sessions.',
     }
   }
   if (kind === 'visual') {
@@ -38,6 +42,7 @@ function getLoginConfig(kind: ReturnType<typeof getProductKind>) {
       side: 'border border-white/10 bg-white/5',
       muted: 'text-slate-300',
       action: 'bg-[#8df0c8] text-[#07111f] hover:bg-[#77dfb8]',
+      input: 'border-white/15 bg-white/5 text-white placeholder:text-slate-400',
       icon: ImageIcon,
       title: 'Enter the creator workspace',
       body: 'Open your visual feed, creator profile, and publishing tools without dropping into a generic admin shell.',
@@ -49,6 +54,7 @@ function getLoginConfig(kind: ReturnType<typeof getProductKind>) {
     side: 'border border-[#e8dbce] bg-[#f3e8db]',
     muted: 'text-[#71574a]',
     action: 'bg-[#5b2b3b] text-[#fff0f5] hover:bg-[#74364b]',
+    input: 'border-[#ddcdbd] bg-white text-[#261811] placeholder:text-[#71574a]',
     icon: Bookmark,
     title: 'Open your curated collections',
     body: 'Manage saved resources, collection notes, and curator identity from a calmer workspace.',
@@ -83,11 +89,7 @@ export default function LoginPage() {
 
           <div className={`rounded-[2rem] p-8 ${config.panel}`}>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] opacity-70">Welcome back</p>
-            <form className="mt-6 grid gap-4">
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="Email address" />
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="Password" type="password" />
-              <button type="submit" className={`inline-flex h-12 items-center justify-center rounded-full px-6 text-sm font-semibold ${config.action}`}>Sign in</button>
-            </form>
+            <LoginForm submitClassName={config.action} inputClassName={config.input} />
             <div className={`mt-6 flex items-center justify-between text-sm ${config.muted}`}>
               <Link href="/forgot-password" className="hover:underline">Forgot password?</Link>
               <Link href="/register" className="inline-flex items-center gap-2 font-semibold hover:underline">

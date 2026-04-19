@@ -54,14 +54,30 @@ export function TaskListClient({ task, initialPosts, category }: Props) {
 
   if (!merged.length) {
     return (
-      <div className="rounded-2xl border border-dashed border-border p-10 text-center text-muted-foreground">
-        No posts yet for this section.
+      <div
+        className={
+          task === "article"
+            ? "rounded-[1.75rem] border border-dashed border-violet-200/80 bg-white/60 p-12 text-center text-slate-600 shadow-[0_16px_48px_rgba(168,85,247,0.08)] backdrop-blur-md"
+            : "rounded-2xl border border-dashed border-border p-10 text-center text-muted-foreground"
+        }
+      >
+        {task === "article" ? (
+          <p className="text-sm font-medium text-slate-700">No articles in this view yet. Try another category or check back soon.</p>
+        ) : (
+          "No posts yet for this section."
+        )}
       </div>
     );
   }
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <div
+      className={
+        task === "article"
+          ? "grid gap-8 sm:grid-cols-2 xl:grid-cols-3"
+          : "grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+      }
+    >
       {merged.map((post) => {
         const localOnly = (post as any).localOnly;
         const href = localOnly

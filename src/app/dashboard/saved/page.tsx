@@ -1,11 +1,11 @@
-﻿'use client'
+'use client'
 
 import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import { PageShell } from '@/components/shared/page-shell'
 import { BookmarkCard } from '@/components/sbm/bookmark-card'
 import { ArticleCard, ListingCard, ClassifiedAdCard } from '@/components/shared/cards'
-import { mockBookmarks, mockArticles, mockBookmarkCollections, mockListings, mockClassifiedAds } from '@/data/mock-data'
+import { mockBookmarks, mockBookmarkCollections, mockListings, mockClassifiedAds } from '@/data/mock-data'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -74,16 +74,7 @@ export default function DashboardSavedPage() {
   const savedBookmarks = allBookmarks.filter((bookmark) => savedIds.includes(bookmark.id))
   const allSelected = selectedIds.length === savedBookmarks.length && savedBookmarks.length > 0
 
-  const allArticles = useMemo(() => {
-    const map = new Map<string, Article>()
-    storedArticles.forEach((article) => map.set(article.id, article))
-    mockArticles.forEach((article) => {
-      if (!map.has(article.id)) {
-        map.set(article.id, article)
-      }
-    })
-    return Array.from(map.values())
-  }, [storedArticles])
+  const allArticles = useMemo(() => [...storedArticles], [storedArticles])
   const savedArticles = allArticles.filter((article) => savedArticleIds.includes(article.id))
 
   const allListings = useMemo(() => {

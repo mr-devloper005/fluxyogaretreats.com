@@ -1,7 +1,7 @@
 import { ContentImage } from "@/components/shared/content-image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MapPin, Globe, Phone, Tag, Mail } from "lucide-react";
+import { MapPin, Globe, Phone, Tag, Mail, ArrowLeft, Sparkles, Clock } from "lucide-react";
 import { NavbarShell } from "@/components/shared/navbar-shell";
 import { Footer } from "@/components/shared/footer";
 import { TaskPostCard } from "@/components/shared/task-post-card";
@@ -247,17 +247,31 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
     );
   }
 
+  const articleShellClass =
+    "relative min-h-screen overflow-hidden bg-[linear-gradient(180deg,#faf5ff_0%,#ffffff_38%,#fdf2f8_100%)] text-slate-900 before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:bg-[radial-gradient(520px_320px_at_10%_-6%,rgba(168,85,247,0.16),transparent_55%),radial-gradient(460px_280px_at_96%_4%,rgba(236,72,153,0.1),transparent_52%)]";
+
+  const readMinutes = isArticle
+    ? Math.max(1, Math.round(articleHtml.replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length / 220))
+    : 0;
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className={isArticle ? articleShellClass : "min-h-screen bg-background"}>
       <NavbarShell />
-      <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <main
+        className={cn(
+          "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8",
+          isArticle ? "relative py-12 lg:py-16" : "py-10"
+        )}
+      >
         <SchemaJsonLd data={schemaPayload} />
-        <Link
-          href={taskConfig?.route || "/"}
-          className="mb-6 inline-flex items-center text-sm text-muted-foreground hover:text-foreground"
-        >
-          ← Back to {taskConfig?.label || "posts"}
-        </Link>
+        {!isArticle ? (
+          <Link
+            href={taskConfig?.route || "/"}
+            className="mb-6 inline-flex items-center text-sm text-muted-foreground hover:text-foreground"
+          >
+            ← Back to {taskConfig?.label || "posts"}
+          </Link>
+        ) : null}
 
         <div
           className={cn(
@@ -267,44 +281,85 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
         >
           <div className={cn(isClassified ? "space-y-8" : "")}>
             {isArticle ? (
-              <div className="mx-auto w-full max-w-4xl space-y-6">
-                <h1 className="text-4xl font-semibold leading-tight text-foreground">
-                  {post.title}
-                </h1>
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
-                  <span>By {articleAuthor}</span>
-                  {articleDate ? <span>{articleDate}</span> : null}
-                  <Badge variant="secondary" className="inline-flex items-center gap-1">
-                    <Tag className="h-3.5 w-3.5" />
-                    {category}
-                  </Badge>
+              <div className="mx-auto w-full max-w-3xl space-y-10">
+                <Link
+                  href={taskConfig?.route || "/articles"}
+                  className="inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/70 px-4 py-2 text-sm font-medium text-slate-700 shadow-sm backdrop-blur-xl transition hover:border-violet-200/80 hover:bg-white hover:text-violet-800"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Back to {taskConfig?.label || "articles"}
+                </Link>
+
+                <header className="space-y-6">
+                  <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-violet-700">
+                    <Sparkles className="h-3.5 w-3.5" />
+                    {String(category)}
+                  </p>
+                  <h1 className="text-4xl font-semibold leading-[1.12] tracking-[-0.04em] text-slate-900 sm:text-5xl lg:text-[2.75rem]">
+                    {post.title}
+                  </h1>
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-2xl border border-white/70 bg-white/60 px-4 py-3 text-sm text-slate-600 shadow-[0_12px_40px_rgba(168,85,247,0.08)] backdrop-blur-xl">
+                    <span className="font-medium text-slate-800">By {articleAuthor}</span>
+                    {articleDate ? (
+                      <>
+                        <span className="hidden text-slate-300 sm:inline" aria-hidden>
+                          ·
+                        </span>
+                        <span>{articleDate}</span>
+                      </>
+                    ) : null}
+                    <span className="hidden text-slate-300 sm:inline" aria-hidden>
+                      ·
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 text-slate-500">
+                      <Clock className="h-3.5 w-3.5" />
+                      {readMinutes} min read
+                    </span>
+                  </div>
+                  {postTags.length ? (
+                    <div className="flex flex-wrap gap-2">
+                      {postTags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-full border border-violet-200/80 bg-violet-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-violet-800"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
+                  {articleSummary ? (
+                    <p className="border-l-4 border-violet-400 pl-5 text-lg font-medium leading-relaxed text-slate-600">
+                      {articleSummary}
+                    </p>
+                  ) : null}
+                  {images[0] ? (
+                    <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[1.35rem] border border-white/70 bg-slate-900/5 shadow-[0_28px_90px_rgba(109,40,217,0.18)]">
+                      <ContentImage
+                        src={images[0]}
+                        alt={`${post.title} featured image`}
+                        fill
+                        className="object-cover"
+                        priority
+                        intrinsicWidth={1600}
+                        intrinsicHeight={900}
+                      />
+                    </div>
+                  ) : null}
+                </header>
+
+                <div className="rounded-[1.75rem] border border-white/70 bg-white/70 p-6 shadow-[0_24px_80px_rgba(168,85,247,0.1)] backdrop-blur-xl sm:p-10">
+                  <RichContent
+                    html={articleHtml}
+                    className="leading-8 prose-p:my-6 prose-h2:my-8 prose-h3:my-6 prose-ul:my-6 prose-headings:text-slate-900 prose-a:text-violet-700 prose-strong:text-slate-900"
+                  />
                 </div>
-                {postTags.length ? (
-                  <div className="flex flex-wrap gap-2">
-                    {postTags.map((tag) => (
-                      <Badge key={tag} variant="outline">
-                        {tag}
-                      </Badge>
-                    ))}
+
+                <div className="rounded-[1.75rem] border border-white/70 bg-white/55 p-1 shadow-[0_18px_60px_rgba(236,72,153,0.08)] backdrop-blur-xl sm:p-2">
+                  <div className="rounded-[1.35rem] bg-white/80 p-4 sm:p-6 [&>section]:mt-0">
+                    <ArticleComments slug={post.slug} />
                   </div>
-                ) : null}
-                {articleSummary ? (
-                  <p className="text-base leading-7 text-muted-foreground">{articleSummary}</p>
-                ) : null}
-                {images[0] ? (
-                  <div className="relative aspect-[16/9] w-full overflow-hidden rounded-3xl border border-border bg-muted">
-                    <ContentImage
-                      src={images[0]}
-                      alt={`${post.title} featured image`}
-                      fill
-                      className="object-cover"
-                      intrinsicWidth={1600}
-                      intrinsicHeight={900}
-                    />
-                  </div>
-                ) : null}
-                <RichContent html={articleHtml} className="leading-8 prose-p:my-6 prose-h2:my-8 prose-h3:my-6 prose-ul:my-6" />
-                <ArticleComments slug={post.slug} />
+                </div>
               </div>
             ) : null}
 
@@ -475,41 +530,61 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
           ) : null}
         </div>
 
-        <section className="mt-12">
+        <section
+          className={cn(
+            "mt-12 lg:mt-16",
+            isArticle &&
+              "rounded-[2rem] border border-white/70 bg-white/50 p-6 shadow-[0_24px_80px_rgba(168,85,247,0.1)] backdrop-blur-xl sm:p-8"
+          )}
+        >
           {related.length ? (
             <>
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-foreground">
-                More in {category}
-              </h2>
-              {taskConfig?.route && (
-                <Link
-                  href={taskConfig.route}
-                  className="text-sm text-muted-foreground hover:text-foreground"
-                >
-                  View all
-                </Link>
-              )}
-            </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {related.map((item) => (
-                <TaskPostCard
-                  key={item.id}
-                  post={item}
-                  href={buildPostUrl(task, item.slug)}
-                />
-              ))}
-            </div>
+              <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-violet-700/90">Keep reading</p>
+                  <h2 className={cn("mt-1 text-2xl font-semibold tracking-tight", isArticle ? "text-slate-900" : "text-foreground")}>
+                    More in {String(category)}
+                  </h2>
+                </div>
+                {taskConfig?.route ? (
+                  <Link
+                    href={taskConfig.route}
+                    className={cn(
+                      "inline-flex w-fit items-center gap-2 text-sm font-semibold transition",
+                      isArticle
+                        ? "rounded-full bg-[linear-gradient(90deg,#a855f7,#ec4899)] px-5 py-2.5 text-white shadow-[0_12px_36px_rgba(168,85,247,0.35)] hover:brightness-105"
+                        : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    View all
+                  </Link>
+                ) : null}
+              </div>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {related.map((item) => (
+                  <TaskPostCard key={item.id} post={item} href={buildPostUrl(task, item.slug)} taskKey={task} />
+                ))}
+              </div>
             </>
           ) : null}
-          <nav className="mt-6 rounded-2xl border border-border bg-card/60 p-4">
-            <p className="text-sm font-semibold text-foreground">Related links</p>
-            <ul className="mt-2 space-y-2 text-sm">
+          <nav
+            className={cn(
+              "mt-8 rounded-2xl p-4 sm:p-5",
+              isArticle
+                ? "border border-violet-100/80 bg-gradient-to-br from-white/90 to-violet-50/40"
+                : "border border-border bg-card/60"
+            )}
+          >
+            <p className={cn("text-sm font-semibold", isArticle ? "text-slate-900" : "text-foreground")}>Related links</p>
+            <ul className="mt-3 space-y-2 text-sm">
               {related.map((item) => (
                 <li key={`link-${item.id}`}>
                   <Link
                     href={buildPostUrl(task, item.slug)}
-                    className="text-primary underline-offset-4 hover:underline"
+                    className={cn(
+                      "underline-offset-4 hover:underline",
+                      isArticle ? "font-medium text-violet-800 hover:text-violet-950" : "text-primary"
+                    )}
                   >
                     {item.title}
                   </Link>
@@ -519,7 +594,10 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                 <li>
                   <Link
                     href={taskConfig.route}
-                    className="text-primary underline-offset-4 hover:underline"
+                    className={cn(
+                      "underline-offset-4 hover:underline",
+                      isArticle ? "font-medium text-violet-800 hover:text-violet-950" : "text-primary"
+                    )}
                   >
                     Browse all {taskConfig.label}
                   </Link>
@@ -527,10 +605,13 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
               ) : null}
               <li>
                 <Link
-                  href={`/search?q=${encodeURIComponent(category)}`}
-                  className="text-primary underline-offset-4 hover:underline"
+                  href={`/search?q=${encodeURIComponent(String(category))}`}
+                  className={cn(
+                    "underline-offset-4 hover:underline",
+                    isArticle ? "font-medium text-violet-800 hover:text-violet-950" : "text-primary"
+                  )}
                 >
-                  Search more in {category}
+                  Search more in {String(category)}
                 </Link>
               </li>
             </ul>

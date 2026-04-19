@@ -1,13 +1,13 @@
 import type { SiteFactoryRecipe } from '@/design/factory/types'
 
 export const SITE_FACTORY_RECIPE: SiteFactoryRecipe = {
-  brandPack: 'directory-clean',
+  brandPack: 'editorial-luxe',
   navbar: 'compact-bar',
-  footer: 'columns-footer',
-  homeLayout: 'listing-home',
-  motionPack: 'minimal',
-  primaryTask: 'listing',
-  enabledTasks: ['listing', 'classified', 'article', 'image', 'profile', 'sbm'],
+  footer: 'editorial-footer',
+  homeLayout: 'article-home',
+  motionPack: 'editorial-soft',
+  primaryTask: 'article',
+  enabledTasks: ['article'],
   taskLayouts: {
     listing: 'listing-directory',
     classified: 'classified-market',

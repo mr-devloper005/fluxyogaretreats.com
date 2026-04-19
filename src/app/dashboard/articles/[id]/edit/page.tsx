@@ -1,14 +1,14 @@
-﻿'use client'
+'use client'
 
 import { use, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import { PageShell } from '@/components/shared/page-shell'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
-import { mockArticles } from '@/data/mock-data'
 import { loadFromStorage, saveToStorage, storageKeys } from '@/lib/local-storage'
 import type { Article } from '@/types'
 import { useAuth } from '@/lib/auth-context'
@@ -19,8 +19,9 @@ export default function DashboardArticleEditPage({ params }: { params: Promise<{
   const { user } = useAuth()
   const [saved, setSaved] = useState(false)
   const [storedArticles, setStoredArticles] = useState<Article[]>([])
+  const [storageReady, setStorageReady] = useState(false)
   const article = useMemo(
-    () => [...storedArticles, ...mockArticles].find((item) => item.id === resolvedParams.id),
+    () => storedArticles.find((item) => item.id === resolvedParams.id),
     [resolvedParams.id, storedArticles]
   )
   const canEdit = article ? (article.id.startsWith('user-') || (user && article.author.id === user.id)) : false
@@ -30,6 +31,7 @@ export default function DashboardArticleEditPage({ params }: { params: Promise<{
 
   useEffect(() => {
     setStoredArticles(loadFromStorage<Article[]>(storageKeys.articles, []))
+    setStorageReady(true)
   }, [])
 
   useEffect(() => {
@@ -38,6 +40,18 @@ export default function DashboardArticleEditPage({ params }: { params: Promise<{
     setExcerpt(article.excerpt)
     setContent(article.content.replace(/<[^>]+>/g, '').trim())
   }, [article])
+
+  if (!storageReady) {
+    return (
+      <PageShell title="Loading" description="">
+        <p className="text-sm text-muted-foreground">Loading editor…</p>
+      </PageShell>
+    )
+  }
+
+  if (!article) {
+    notFound()
+  }
 
   return (
     <PageShell
