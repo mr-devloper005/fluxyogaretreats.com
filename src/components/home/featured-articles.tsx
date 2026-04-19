@@ -1,17 +1,32 @@
 'use client'
 
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { mockArticles } from '@/data/mock-data'
 import { cn } from '@/lib/utils'
+import type { Article } from '@/types'
+import { loadFromStorage, storageKeys } from '@/lib/local-storage'
 
 export function FeaturedArticles() {
-  const featured = mockArticles.filter(a => a.isFeatured)
-  const source = featured.length >= 5 ? featured : mockArticles
+  const [articles, setArticles] = useState<Article[]>([])
+
+  useEffect(() => {
+    setArticles(loadFromStorage<Article[]>(storageKeys.articles, []))
+  }, [])
+
+  const source = useMemo(() => {
+    const featured = articles.filter((a) => a.isFeatured)
+    return featured.length >= 3 ? featured : articles
+  }, [articles])
+
   const [hero, second, third, ...rest] = source.slice(0, 6)
+
+  if (!articles.length) {
+    return null
+  }
 
   return (
     <section className="relative overflow-hidden border-b border-border py-16">
@@ -29,7 +44,7 @@ export function FeaturedArticles() {
               Featured Articles
             </h2>
             <p className="mt-2 text-muted-foreground">
-              Curated narratives, high-signal insights, and standout community work.
+              Your drafts and published stories from this device.
             </p>
           </div>
           <Button variant="outline" asChild>
@@ -41,7 +56,7 @@ export function FeaturedArticles() {
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
-          {hero && (
+          {hero ? (
             <Link
               href={`/articles/${hero.slug}`}
               className="group relative overflow-hidden rounded-3xl border border-border bg-card"
@@ -107,22 +122,12 @@ export function FeaturedArticles() {
                     <span>{hero.readTime} min read</span>
                   </div>
                 </div>
-                <div className="rounded-xl border border-border bg-background/70 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                    Key Takeaways
-                  </p>
-                  <div className="mt-3 grid gap-2 text-sm text-foreground">
-                    <div>Design systems become living products, not static libraries.</div>
-                    <div>AI assistants accelerate audits, docs, and component QA.</div>
-                    <div>Metrics-driven governance keeps teams aligned at scale.</div>
-                  </div>
-                </div>
                 <Button variant="secondary" className="w-fit">
                   Continue Reading
                 </Button>
               </div>
             </Link>
-          )}
+          ) : null}
 
           <div className="grid gap-6">
             {[second, third].filter(Boolean).map((article) => (

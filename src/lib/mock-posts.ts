@@ -120,6 +120,9 @@ const buildImage = (task: TaskKey, index: number) =>
   `https://picsum.photos/seed/${taskSeeds[task]}-${index}/1200/800`;
 
 export const getMockPostsForTask = (task: TaskKey): SitePost[] => {
+  if (task === "article") {
+    return [];
+  }
   return Array.from({ length: 5 }).map((_, index) => {
     const title = taskTitles[task][index];
     const category = randomFrom(taskCategories[task], index);

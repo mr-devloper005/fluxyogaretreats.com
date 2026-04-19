@@ -2,25 +2,25 @@ import type { TaskKey } from '@/lib/site-config'
 
 export const siteContent = {
   navbar: {
-    tagline: 'Image and profile platform',
+    tagline: 'Retreat stories & long-form journal',
   },
   footer: {
-    tagline: 'Visual posts, creators, and discoverable profiles',
+    tagline: 'Articles on retreats, practice, and slow travel',
   },
   hero: {
-    badge: 'Retreat visuals and profiles',
-    title: ['Explore retreat imagery, spaces, and profile-led inspiration.'],
+    badge: 'The Flux journal',
+    title: ['Discover who we are', 'and why we built this reading room for retreat life.'],
     description:
-      'A calm visual discovery platform for image posts, retreat galleries, and profile-based inspiration.',
+      'Editorial features, field notes, and practical guides for people who plan around breath, movement, and meaningful time away.',
     primaryCta: {
-      label: 'Explore visuals',
-      href: '/images',
+      label: 'Browse articles',
+      href: '/articles',
     },
     secondaryCta: {
-      label: 'View profiles',
-      href: '/profile',
+      label: 'About the publication',
+      href: '/about',
     },
-    searchPlaceholder: 'Search images, creators, collections, and visual posts',
+    searchPlaceholder: 'Search articles, topics, and retreat themes',
     focusLabel: 'Focus',
     featureCardBadge: 'latest cover rotation',
     featureCardTitle: 'Latest posts shape the visual identity of the homepage.',
@@ -29,48 +29,48 @@ export const siteContent = {
   },
   home: {
     metadata: {
-      title: 'Stories, visuals, and discoverable content',
+      title: 'Retreat articles, field notes, and slow-travel stories',
       description:
-        'Explore articles, images, listings, and curated posts through a cleaner reading-first experience.',
-      openGraphTitle: 'Stories, visuals, and discoverable content',
+        'Read long-form pieces on yoga retreats, restorative travel, and the craft of hosting meaningful gatherings.',
+      openGraphTitle: 'Retreat articles, field notes, and slow-travel stories',
       openGraphDescription:
-        'Discover articles, visual posts, and connected content through a calmer reading-first experience.',
-      keywords: ['story platform', 'article site', 'visual content', 'content discovery'],
+        'A glass-quiet editorial homepage for Flux Yoga Retreats—stories first, distraction last.',
+      keywords: ['yoga retreat journal', 'wellness articles', 'retreat planning', 'flux yoga retreats'],
     },
-    introBadge: 'About the platform',
-    introTitle: 'Built for reading, browsing, and connecting different kinds of content.',
+    introBadge: 'About the journal',
+    introTitle: 'A publication-shaped homepage for people who read before they book.',
     introParagraphs: [
-      'This site brings together article-style reading, visual browsing, and structured discovery so visitors can move naturally between different content types.',
-      'Instead of separating stories, visuals, and supporting resources into disconnected surfaces, the platform keeps them connected in one place with consistent navigation and easier exploration.',
-      'Whether someone starts with a story, an image-led post, a listing, or a resource page, they can keep discovering related content without friction.',
+      'Every article is paced for depth: itineraries, essays, interviews, and practical notes from hosts who live on the road between retreats.',
+      'Typography, spacing, and imagery follow magazine habits so scanning feels calm and reading feels uninterrupted.',
+      'When you are ready to go deeper, search and saved-reading tools stay one tap away without turning the site into a dashboard.',
     ],
-    sideBadge: 'At a glance',
+    sideBadge: 'Why it feels different',
     sidePoints: [
-      'Reading-first homepage with stronger emphasis on stories and imagery.',
-      'Connected sections for articles, visuals, listings, and supporting resources.',
-      'Cleaner browsing rhythm designed to make exploration feel easier.',
-      'Lightweight interactions that keep the experience fast and readable.',
+      'Editorial hero with a single lane into long-form stories.',
+      'Glass panels, soft gradients, and restrained motion.',
+      'Article cards with fixed media ratios for predictable rhythm.',
+      'Conversion moments that respect the reader’s attention.',
     ],
     primaryLink: {
-      label: 'Browse articles',
+      label: 'Open latest articles',
       href: '/articles',
     },
     secondaryLink: {
-      label: 'See visuals',
-      href: '/images',
+      label: 'Search the archive',
+      href: '/search',
     },
   },
   cta: {
-    badge: 'Start exploring',
-    title: 'Explore articles, visuals, and resources through one connected experience.',
+    badge: 'Stay with the story',
+    title: 'Ready to read the next retreat dispatch?',
     description:
-      'Move between articles, image-led posts, listings, and resources through one clearer and more connected visual system.',
+      'Create a free reader account to save articles, get gentle reminders, and keep your retreat research in one place.',
     primaryCta: {
-      label: 'Get Started Free',
+      label: 'Get started',
       href: '/register',
     },
     secondaryCta: {
-      label: 'Contact Sales',
+      label: 'Talk with the team',
       href: '/contact',
     },
   },
@@ -130,13 +130,13 @@ export const taskIntroCopy: Record<
     title: 'Articles, stories, and long-form reading',
     paragraphs: [
       'This section is built for stories, explainers, guides, and long-form reading across topics and interests.',
-      'Articles connect with listings, images, resources, and other content types so deeper reading can lead naturally into related discovery.',
-      'Use this section to browse thoughtful posts, revisit useful writing, and move into supporting content when you want more context.',
+      'Each piece is edited for clarity on the page—comfortable line length, generous margins, and imagery that supports the narrative instead of competing with it.',
+      'Use this library to plan retreats, understand teaching lineages, and collect field notes from hosts who publish transparently.',
     ],
     links: [
-      { label: 'Explore listings', href: '/listings' },
-      { label: 'Open images', href: '/images' },
-      { label: 'Browse resources', href: '/pdf' },
+      { label: 'Search the archive', href: '/search' },
+      { label: 'About the journal', href: '/about' },
+      { label: 'Create a reader account', href: '/register' },
     ],
   },
   classified: {
