@@ -1,7 +1,7 @@
-import { ContentImage } from "@/components/shared/content-image";
+﻿import { ContentImage } from "@/components/shared/content-image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MapPin, Globe, Phone, Tag, Mail, ArrowLeft, Sparkles, Clock } from "lucide-react";
+import { MapPin, Globe, Phone, Tag, Mail, ArrowLeft, Sparkles } from "lucide-react";
 import { NavbarShell } from "@/components/shared/navbar-shell";
 import { Footer } from "@/components/shared/footer";
 import { TaskPostCard } from "@/components/shared/task-post-card";
@@ -155,13 +155,6 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
     (typeof content.author === "string" && content.author.trim()) ||
     post.authorName ||
     "Editorial Team";
-  const articleDate = post.publishedAt
-    ? new Date(post.publishedAt).toLocaleDateString("en-IN", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
-    : "";
   const postTags = Array.isArray(post.tags) ? post.tags.filter((tag) => typeof tag === "string") : [];
   const location = content.address || content.location;
   const images = getImageUrls(post, content);
@@ -250,10 +243,6 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
   const articleShellClass =
     "relative min-h-screen overflow-hidden bg-[linear-gradient(180deg,#faf5ff_0%,#ffffff_38%,#fdf2f8_100%)] text-slate-900 before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:bg-[radial-gradient(520px_320px_at_10%_-6%,rgba(168,85,247,0.16),transparent_55%),radial-gradient(460px_280px_at_96%_4%,rgba(236,72,153,0.1),transparent_52%)]";
 
-  const readMinutes = isArticle
-    ? Math.max(1, Math.round(articleHtml.replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length / 220))
-    : 0;
-
   return (
     <div className={isArticle ? articleShellClass : "min-h-screen bg-background"}>
       <NavbarShell />
@@ -269,7 +258,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
             href={taskConfig?.route || "/"}
             className="mb-6 inline-flex items-center text-sm text-muted-foreground hover:text-foreground"
           >
-            ← Back to {taskConfig?.label || "posts"}
+            ? Back to {taskConfig?.label || "posts"}
           </Link>
         ) : null}
 
@@ -281,7 +270,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
         >
           <div className={cn(isClassified ? "space-y-8" : "")}>
             {isArticle ? (
-              <div className="mx-auto w-full max-w-3xl space-y-10">
+              <article className="mx-auto w-full max-w-5xl space-y-10">
                 <Link
                   href={taskConfig?.route || "/articles"}
                   className="inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/70 px-4 py-2 text-sm font-medium text-slate-700 shadow-sm backdrop-blur-xl transition hover:border-violet-200/80 hover:bg-white hover:text-violet-800"
@@ -290,7 +279,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                   Back to {taskConfig?.label || "articles"}
                 </Link>
 
-                <header className="space-y-6">
+                <header className="space-y-6 rounded-[1.9rem] border border-white/70 bg-white/65 p-6 shadow-[0_22px_70px_rgba(168,85,247,0.12)] backdrop-blur-xl sm:p-8 lg:p-10">
                   <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-violet-700">
                     <Sparkles className="h-3.5 w-3.5" />
                     {String(category)}
@@ -298,23 +287,8 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                   <h1 className="text-4xl font-semibold leading-[1.12] tracking-[-0.04em] text-slate-900 sm:text-5xl lg:text-[2.75rem]">
                     {post.title}
                   </h1>
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-2xl border border-white/70 bg-white/60 px-4 py-3 text-sm text-slate-600 shadow-[0_12px_40px_rgba(168,85,247,0.08)] backdrop-blur-xl">
+                  <div className="rounded-2xl border border-violet-100/80 bg-gradient-to-r from-white/95 via-violet-50/40 to-fuchsia-50/35 px-4 py-3 text-sm text-slate-600">
                     <span className="font-medium text-slate-800">By {articleAuthor}</span>
-                    {articleDate ? (
-                      <>
-                        <span className="hidden text-slate-300 sm:inline" aria-hidden>
-                          ·
-                        </span>
-                        <span>{articleDate}</span>
-                      </>
-                    ) : null}
-                    <span className="hidden text-slate-300 sm:inline" aria-hidden>
-                      ·
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 text-slate-500">
-                      <Clock className="h-3.5 w-3.5" />
-                      {readMinutes} min read
-                    </span>
                   </div>
                   {postTags.length ? (
                     <div className="flex flex-wrap gap-2">
@@ -348,11 +322,27 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                   ) : null}
                 </header>
 
-                <div className="rounded-[1.75rem] border border-white/70 bg-white/70 p-6 shadow-[0_24px_80px_rgba(168,85,247,0.1)] backdrop-blur-xl sm:p-10">
-                  <RichContent
-                    html={articleHtml}
-                    className="leading-8 prose-p:my-6 prose-h2:my-8 prose-h3:my-6 prose-ul:my-6 prose-headings:text-slate-900 prose-a:text-violet-700 prose-strong:text-slate-900"
-                  />
+                <div className="grid gap-6 lg:grid-cols-[1fr_280px] lg:items-start">
+                  <div className="rounded-[1.75rem] border border-white/70 bg-white/70 p-6 shadow-[0_24px_80px_rgba(168,85,247,0.1)] backdrop-blur-xl sm:p-10">
+                    <RichContent
+                      html={articleHtml}
+                      className="leading-8 prose-p:my-6 prose-h2:my-8 prose-h3:my-6 prose-ul:my-6 prose-headings:text-slate-900 prose-a:text-violet-700 prose-strong:text-slate-900"
+                    />
+                  </div>
+                  <aside className="rounded-[1.25rem] border border-white/70 bg-white/60 p-5 shadow-[0_16px_50px_rgba(236,72,153,0.1)] backdrop-blur-xl lg:sticky lg:top-24">
+                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-violet-700">Article note</p>
+                    <p className="mt-3 text-sm leading-7 text-slate-600">
+                      Save this page and revisit after your next practice session. This format is designed for slower, reflective reading.
+                    </p>
+                    {taskConfig?.route ? (
+                      <Link
+                        href={taskConfig.route}
+                        className="mt-5 inline-flex w-full items-center justify-center rounded-full bg-[linear-gradient(90deg,#a855f7,#ec4899)] px-4 py-2.5 text-sm font-semibold text-white shadow-[0_12px_32px_rgba(168,85,247,0.35)] transition hover:brightness-105"
+                      >
+                        Browse more articles
+                      </Link>
+                    ) : null}
+                  </aside>
                 </div>
 
                 <div className="rounded-[1.75rem] border border-white/70 bg-white/55 p-1 shadow-[0_18px_60px_rgba(236,72,153,0.08)] backdrop-blur-xl sm:p-2">
@@ -360,7 +350,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                     <ArticleComments slug={post.slug} />
                   </div>
                 </div>
-              </div>
+              </article>
             ) : null}
 
             {!isArticle ? (
@@ -622,3 +612,4 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
     </div>
   );
 }
+
