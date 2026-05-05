@@ -96,6 +96,16 @@ export default function ContactPage() {
                 Send message
               </button>
             </form>
+            <div className="mt-6 text-center">
+              <p className="text-sm text-slate-600 mb-3">Or email us directly</p>
+              <a
+                href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'contact@fluxyogaretreats.com'}`}
+                className="inline-flex items-center gap-2 rounded-full border border-violet-200/80 bg-violet-50/80 px-6 py-3 text-sm font-semibold text-violet-700 shadow-sm transition hover:border-violet-300/80 hover:bg-violet-100/80"
+              >
+                <Mail className="h-4 w-4" />
+                {process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'contact@fluxyogaretreats.com'}
+              </a>
+            </div>
           </div>
         </section>
       </main>

@@ -442,50 +442,6 @@ function EditorialHome({ primaryTask, articlePosts }: { primaryTask?: EnabledTas
           </div>
         ) : null}
 
-        <div className="mt-20">
-          <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-violet-700/80">The minds behind the magic</p>
-              <h2 className="mt-2 text-3xl font-semibold tracking-[-0.04em] text-slate-900">Editors, hosts, and visual storytellers.</h2>
-            </div>
-            <Link href="/about" className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold ${tone.actionAlt}`}>
-              Meet the full team
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
-            {team.map((person) => (
-              <div key={person.name} className={`flex flex-col p-6 ${tone.panel}`}>
-                <div className="flex h-40 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-100 to-fuchsia-100 text-2xl font-semibold text-violet-800">{person.initials}</div>
-                <h3 className="mt-5 text-lg font-semibold text-slate-900">{person.name}</h3>
-                <p className={`text-sm ${tone.muted}`}>{person.role}</p>
-                <div className="mt-4 flex gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-violet-700/80">
-                  <span className="rounded-full border border-violet-200/80 px-3 py-1">Profile</span>
-                  <span className="rounded-full border border-violet-200/80 px-3 py-1">Notes</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className={`mt-20 ${tone.panel} p-8 sm:p-10`}>
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-center">
-            <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500 text-lg font-semibold text-white">AR</div>
-            <div className="flex-1">
-              <div className="flex gap-1 text-amber-400">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="h-5 w-5 fill-current" />
-                ))}
-              </div>
-              <Quote className="mt-4 h-8 w-8 text-violet-300" />
-              <p className="mt-3 text-lg font-medium leading-relaxed text-slate-900">
-                “I finally found a retreat journal that reads like a magazine—slow, honest, and obsessed with the details that actually matter on the mat.”
-              </p>
-              <p className={`mt-4 text-sm font-semibold text-slate-700`}>Alex R. · Reader since 2024</p>
-            </div>
-          </div>
-        </div>
-
         {blogPosts.length > 0 ? (
           <div className="mt-20">
             <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
