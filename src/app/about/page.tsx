@@ -105,41 +105,6 @@ export default function AboutPage() {
             ))}
           </div>
         </section>
-
-        <section className="mt-16">
-          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-violet-700/80">People behind the bylines</p>
-              <h2 className="mt-2 text-3xl font-semibold tracking-[-0.04em] text-slate-900">Meet the team</h2>
-              <p className="mt-2 max-w-xl text-sm text-slate-600">Editors and contributors who split time between the desk and the mat.</p>
-            </div>
-            <Link href="/contact" className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-violet-700 hover:text-violet-900">
-              Work with us
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
-            {mockTeamMembers.map((member) => (
-              <div
-                key={member.id}
-                className="rounded-[1.5rem] border border-white/70 bg-white/70 p-6 shadow-[0_20px_60px_rgba(168,85,247,0.1)] backdrop-blur-xl transition hover:border-violet-200/80"
-              >
-                <div className="flex items-center gap-3">
-                  <Avatar className="h-12 w-12 border border-violet-100">
-                    <AvatarImage src={member.avatar} alt={member.name} />
-                    <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="text-sm font-semibold text-slate-900">{member.name}</p>
-                    <p className="text-xs text-slate-500">{member.role}</p>
-                  </div>
-                </div>
-                <p className="mt-3 text-sm leading-relaxed text-slate-600">{member.bio}</p>
-                <p className="mt-3 text-xs text-slate-500">{member.location}</p>
-              </div>
-            ))}
-          </div>
-        </section>
       </main>
       <Footer />
     </div>
