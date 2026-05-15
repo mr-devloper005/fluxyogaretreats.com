@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Search, Menu, X, User, FileText, Building2, LayoutGrid, Tag, Image as ImageIcon, MapPin, Plus, Info, Mail, HelpCircle, Activity } from 'lucide-react'
+import { Search, Menu, X, User, FileText, Building2, LayoutGrid, Tag, Image as ImageIcon, MapPin, Plus, Info, Mail, HelpCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/lib/auth-context'
 import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
@@ -70,14 +70,12 @@ const STATIC_NAV = [
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact us' },
   { href: '/help', label: 'Help' },
-  { href: '/status', label: 'Status' },
 ] as const
 
 function staticNavIcon(href: string) {
   if (href === '/about') return Info
   if (href === '/contact') return Mail
   if (href === '/help') return HelpCircle
-  if (href === '/status') return Activity
   return Info
 }
 
@@ -117,7 +115,7 @@ export function Navbar() {
   const { isAuthenticated } = useAuth()
   const { recipe } = getFactoryState()
 
-  const navigation = useMemo(() => SITE_CONFIG.tasks.filter((task) => task.enabled && task.key === 'article'), [])
+  const navigation = useMemo(() => SITE_CONFIG.tasks.filter((task) => task.enabled && task.key !== 'article'), [])
   const primaryNavigation = navigation.slice(0, 5)
   const mobileNavigation = navigation.map((task) => ({
     name: task.label,
@@ -143,7 +141,7 @@ export function Navbar() {
               </div>
             </Link>
 
-            <div className="hidden items-center gap-5 xl:flex">
+            <div className="hidden flex-1 items-center justify-center gap-5 xl:flex">
               {primaryNavigation.slice(0, 4).map((task) => {
                 const isActive = pathname.startsWith(task.route)
                 return (
@@ -276,7 +274,7 @@ export function Navbar() {
               <div className="h-px min-w-[1.5rem] flex-1 bg-gradient-to-r from-transparent via-violet-200/70 to-transparent" />
             </div>
           ) : isFloating ? (
-            <div className="hidden min-w-0 flex-1 items-center gap-2 xl:flex">
+            <div className="hidden min-w-0 flex-1 items-center justify-center gap-2 xl:flex">
               {primaryNavigation.map((task) => {
                 const Icon = taskIcons[task.key] || LayoutGrid
                 const isActive = pathname.startsWith(task.route)
@@ -299,7 +297,7 @@ export function Navbar() {
               })}
             </div>
           ) : isUtility ? (
-            <div className="hidden min-w-0 flex-1 items-center gap-2 xl:flex">
+            <div className="hidden min-w-0 flex-1 items-center justify-center gap-2 xl:flex">
               {primaryNavigation.map((task) => {
                 const isActive = pathname.startsWith(task.route)
                 return (
@@ -318,7 +316,7 @@ export function Navbar() {
               })}
             </div>
           ) : (
-            <div className="hidden min-w-0 flex-1 items-center gap-1 overflow-hidden xl:flex">
+            <div className="hidden min-w-0 flex-1 items-center justify-center gap-1 overflow-hidden xl:flex">
               {primaryNavigation.map((task) => {
                 const Icon = taskIcons[task.key] || LayoutGrid
                 const isActive = pathname.startsWith(task.route)

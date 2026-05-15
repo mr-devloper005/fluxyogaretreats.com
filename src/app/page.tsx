@@ -297,17 +297,14 @@ function EditorialHome({ primaryTask, articlePosts }: { primaryTask?: EnabledTas
     {
       title: 'Choose a theme',
       body: 'Browse dispatches by region, lineage, or the kind of rest you are designing for.',
-      visual: 'bg-[linear-gradient(135deg,#ede9fe,#fce7f3)]',
     },
     {
       title: 'Read with focus',
       body: 'Layouts prioritize line length, breathing room, and imagery that supports the narrative.',
-      visual: 'bg-[linear-gradient(135deg,#fae8ff,#e0e7ff)]',
     },
     {
       title: 'Save what matters',
       body: 'Create a reader account to keep itineraries, quotes, and packing lists in one calm shelf.',
-      visual: 'bg-[linear-gradient(135deg,#fdf2f8,#eef2ff)]',
     },
   ]
   const team = [
@@ -383,9 +380,16 @@ function EditorialHome({ primaryTask, articlePosts }: { primaryTask?: EnabledTas
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-            {steps.map((step) => (
+            {steps.map((step, index) => (
               <div key={step.title} className={`flex flex-col overflow-hidden ${tone.panel}`}>
-                <div className={`relative h-36 ${step.visual}`} />
+                <div className="relative h-36 overflow-hidden bg-slate-100">
+                  <ContentImage
+                    src={getPostImage(articlePosts[index] || lead)}
+                    alt={step.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
                 <div className="p-5">
                   <h3 className="text-lg font-semibold text-slate-900">{step.title}</h3>
                   <p className={`mt-2 text-sm leading-7 ${tone.muted}`}>{step.body}</p>
