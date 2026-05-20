@@ -5,11 +5,7 @@ import { fetchTaskPostBySlug, fetchTaskPosts } from "@/lib/task-data";
 export const revalidate = 3;
 
 export async function generateStaticParams() {
-  const posts = await fetchTaskPosts("listing", 50);
-  if (!posts.length) {
-    return [{ slug: "placeholder" }];
-  }
-  return posts.map((post) => ({ slug: post.slug }));
+  return [];
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
