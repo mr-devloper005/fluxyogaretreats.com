@@ -2,13 +2,13 @@ import type { TaskKey } from '@/lib/site-config'
 
 export const siteContent = {
   navbar: {
-    tagline: 'Retreat stories & long-form journal',
+    tagline: '',
   },
   footer: {
     tagline: 'Articles on retreats, practice, and slow travel',
   },
   hero: {
-    badge: 'The Flux journal',
+    
     title: ['Discover who we are', 'and why we built this reading room for retreat life.'],
     description:
       'Editorial features, field notes, and practical guides for people who plan around breath, movement, and meaningful time away.',
